@@ -1,0 +1,28 @@
+package com.productinventory.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class InventoryServiceImpl implements IInventoryService{
+
+	@Override
+	public String addStock(int productId, int stock) {
+		//check if productId is available in the database
+		//if so update it else create a new one record
+		
+		return null;
+	}
+
+	@Override
+	public String updateStock(int productId, int stock) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkStock(int productId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

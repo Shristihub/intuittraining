@@ -1,0 +1,13 @@
+package com.productapp.service;
+
+import com.productapp.model.ProductDTO;
+
+public interface IProductService {
+
+	void addProduct(ProductDTO productDTO);
+	void updateProduct(ProductDTO productDTO);
+	void deleteProduct(int productId);
+	ProductDTO getById(int productId);
+	
+	
+}

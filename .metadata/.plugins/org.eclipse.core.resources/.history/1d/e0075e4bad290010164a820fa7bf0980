@@ -1,0 +1,5 @@
+package com.productinventory.controllers;
+
+public class InventoryController {
+
+}

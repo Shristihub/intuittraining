@@ -1,0 +1,63 @@
+package com.productapp.service;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import com.productapp.model.Product;
+import com.productapp.model.ProductDTO;
+import com.productapp.repository.IProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProductServiceImpl implements IProductService{
+	
+	private final IProductRepository productRepository;
+	private final ModelMapper mapper;
+
+	@Override
+	public void addProduct(ProductDTO productDTO) {
+		Product product = mapper.map(productDTO,Product.class);
+		productRepository.save(product);
+	}
+	@Override
+	public void updateProduct(ProductDTO productDTO) {
+		Product product = mapper.map(productDTO,Product.class);
+		productRepository.save(product);
+	}
+
+	@Override
+	public void deleteProduct(int productId) {
+		productRepository.deleteById(productId);
+	}
+
+	@Override
+	public ProductDTO getById(int productId) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getAllProducts() {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByCategoryLessPrice(String category, double price) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByBrand(String brand) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByProductNamePrice(String name, double price) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,68 @@
+package com.productapp.controllers;
+
+import java.util.List;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.productapp.model.ProductDTO;
+import com.productapp.service.IProductService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/product-api/v1")
+@RequiredArgsConstructor
+public class ProductController {
+	
+	private final IProductService productService;
+
+	
+	void addProduct(ProductDTO productDTO) {
+		
+	}
+	void updateProduct(ProductDTO productDTO) {
+		
+	}
+	void deleteProduct(int productId) {}
+	
+	@GetMapping("/products/productId/{productId}")
+	ResponseEntity<ProductDTO> getById(int productId) {
+		ProductDTO productDTO = productService.getById(productId);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("info", "get one product by id");
+		return ResponseEntity.ok().headers(headers).body(productDTO);
+		
+	}
+//	http://localhost:8081/product-api/v1/products
+	@GetMapping("/products")
+	ResponseEntity<List<ProductDTO>> getAllProducts(){
+		List<ProductDTO> products = productService.getAllProducts();
+		return ResponseEntity.ok(products);
+	}
+//	http://localhost:8081/product-api/v1/products/category/electronics/price/40000
+	@GetMapping("/products/category/{category}/price/{price}")
+	ResponseEntity<List<ProductDTO>> getByCategoryLessPrice(@PathVariable String category,@PathVariable double price){
+		List<ProductDTO> products = productService.getByCategoryLessPrice(category,price);
+		return ResponseEntity.ok(products);
+		
+	}
+	
+//	http://localhost:8081/product-api/v1/products/brand/Samsung
+	@GetMapping("/products/brand/Samsung")
+	ResponseEntity<List<ProductDTO>>  getByBrand(String brand){
+		List<ProductDTO> products = productService.getByBrand(brand);
+		return ResponseEntity.ok(products);
+	}
+	
+//	http://localhost:8081/product-api/v1/products/productname/television/price/200000
+	@GetMapping("/products/productname/{productname}/price/{price}")
+	ResponseEntity<List<ProductDTO>>  getByProductNamePrice(@PathVariable String name,@PathVariable double price){
+		List<ProductDTO> products = productService.getByProductNamePrice(name, price);
+		return ResponseEntity.ok(products);
+	}
+}

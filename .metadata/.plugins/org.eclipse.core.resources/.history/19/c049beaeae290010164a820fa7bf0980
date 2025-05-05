@@ -1,0 +1,49 @@
+package com.productinventory.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.productinventory.model.InventoryDTO;
+import com.productinventory.service.IInventoryService;
+
+@RestController
+@RequestMapping("/inventory-service/v1")
+public class InventoryController {
+	
+	@Autowired
+	private IInventoryService inventoryService;
+	
+	// will be called from catalog service 
+	@PostMapping("/inventories")
+	ResponseEntity<String> addStock(@RequestBody InventoryDTO inventoryDTO) {
+		String result = inventoryService.addStock(inventoryDTO.getProductId(), inventoryDTO.getStock());
+		return ResponseEntity.status(HttpStatus.CREATED.ordinal()).body(result);
+	}
+	//direct call from admin
+	@GetMapping("/inventories")
+	ResponseEntity<String> updateStock(@RequestParam int productId,@RequestParam int stock) {
+		String result = inventoryService.updateStock(productId, stock);
+		return ResponseEntity.status(HttpStatus.ACCEPTED.ordinal()).body(result);
+	}
+	//direct call from admin
+	@PostMapping("/inventories/productId/{productId}")
+	ResponseEntity<Integer> checkStock(@PathVariable int productId) {
+		int stock = inventoryService.checkStock(productId);
+		return ResponseEntity.ok(stock);
+	}
+	
+	
+	
+	
+	
+	
+
+}

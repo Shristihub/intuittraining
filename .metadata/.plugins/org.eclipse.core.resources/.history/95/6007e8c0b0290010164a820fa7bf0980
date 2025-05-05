@@ -1,0 +1,79 @@
+package com.productcatalog.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import com.productcatalog.model.Product;
+import com.productcatalog.model.ProductDTO;
+import com.productcatalog.repository.IProductRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProductServiceImpl implements IProductService{
+	
+	private final IProductRepository productRepository;
+	private final ModelMapper mapper;
+
+	@Override
+	public void addProduct(ProductDTO productDTO) {
+		Product product = mapper.map(productDTO,Product.class);
+		productRepository.save(product);
+	}
+	@Override
+	public void updateProduct(ProductDTO productDTO) {
+		Product product = mapper.map(productDTO,Product.class);
+		productRepository.save(product);
+	}
+	@Override
+	public void deleteProduct(int productId) {
+		productRepository.deleteById(productId);
+	}
+	@Override
+	public ProductDTO getById(int productId) {
+		Optional<Product> optproduct =  productRepository.findById(productId);
+		if(optproduct.isEmpty())
+			return null;
+		Product product =  optproduct.get();
+		ProductDTO productDTO = mapper.map(product, ProductDTO.class);
+		return productDTO;
+		
+	}
+
+	@Override
+	public List<ProductDTO> getAllProducts() {
+		 List<Product>  products = productRepository.findAll();
+		 return products.stream()
+		         .map(product-> mapper.map(product, ProductDTO.class))
+		         .toList();
+	}
+
+	@Override
+	public List<ProductDTO> getByCategoryLessPrice(String category, double price) {
+		 List<Product>  products = productRepository.findByCatPrice(category, price);
+		 return products.stream()
+		         .map(product-> mapper.map(product, ProductDTO.class))
+		         .toList();
+	}
+
+	@Override
+	public List<ProductDTO> getByBrand(String brand) {
+		List<Product>  products = productRepository.findByBrand(brand);
+		 return products.stream()
+		         .map(product-> mapper.map(product, ProductDTO.class))
+		         .toList();
+	}
+
+	@Override
+	public List<ProductDTO> getByProductNamePrice(String name, double price) {
+		List<Product>  products = productRepository.findByNamePrice("%"+name+"%", price);
+		 return products.stream()
+		         .map(product-> mapper.map(product, ProductDTO.class))
+		         .toList();
+	}
+
+}

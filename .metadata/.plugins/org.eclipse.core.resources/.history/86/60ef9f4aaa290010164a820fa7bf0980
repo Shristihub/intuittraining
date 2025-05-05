@@ -1,0 +1,41 @@
+package com.productinventory.service;
+
+import org.springframework.stereotype.Service;
+
+import com.productinventory.model.Inventory;
+import com.productinventory.repository.IInventoryRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class InventoryServiceImpl implements IInventoryService{
+	
+	private final IInventoryRepository inventoryRepository;
+
+	@Override
+	public String addStock(int productId, int stock) {
+		//check if productId is available in the database
+//		if available return that inventory object
+//		else create the new inventory object
+		Inventory inventory =  
+				inventoryRepository.findByProductId(productId)
+				.OrElseGet(()-> new Inventory)
+		
+		
+		return null;
+	}
+
+	@Override
+	public String updateStock(int productId, int stock) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkStock(int productId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

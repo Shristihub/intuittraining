@@ -1,0 +1,53 @@
+package com.productapp.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.productapp.model.ProductDTO;
+
+@Service
+public class ProductServiceImpl implements IProductService{
+
+	@Override
+	public void addProduct(ProductDTO productDTO) {
+		
+	}
+
+	@Override
+	public void updateProduct(ProductDTO productDTO) {
+		
+	}
+
+	@Override
+	public void deleteProduct(int productId) {
+		
+	}
+
+	@Override
+	public ProductDTO getById(int productId) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getAllProducts() {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByCategoryLessPrice(String category, double price) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByBrand(String brand) {
+		return null;
+	}
+
+	@Override
+	public List<ProductDTO> getByProductNamePrice(String name, double price) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

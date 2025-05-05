@@ -1,0 +1,5 @@
+package com.productinventory.service;
+
+public class InventoryServiceImpl {
+
+}
