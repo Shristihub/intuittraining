@@ -1,0 +1,35 @@
+server:
+  port: 9000
+eureka:
+  client:
+    service-url:
+      default-zone: http://eureka-registry
+
+spring:
+ application:
+    name: gateway-api
+#each route has id, uri, predicates,filter
+#http://localhost:9000/catalog/
+ cloud:
+  gateway:
+   mvc:
+    routes:
+    - id: catalogService
+      uri: lb://product-catalog
+      predicates:
+        - Path=/catalog/**
+      filters:
+       - RewritePath=/catalog/(?<segment>.*),/catalog-service/v1/${segment}
+       - AddRequestHeader=X-catalog-info, catalog-service
+    - id: infoService
+      uri: lb://product-info
+      predicates:
+        - Path=/productinfo/**
+      filters:
+       - RewritePath=/productinfo/(?<segment>.*),/info-service/v1/${segment}
+    - id: inventoryService
+      uri: lb://product-inventory
+      predicates:
+        - Path=/inventory/**
+      filters:
+        - RewritePath=/inventory/(?<segment>.*),/inventory-service/v1/${segment}
