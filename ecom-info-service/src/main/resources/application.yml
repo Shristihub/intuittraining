@@ -1,0 +1,10 @@
+server:
+  port: 8084
+
+spring:
+ application:
+    name: product-info
+eureka:
+  client:
+    service-url:
+      default-zone: http://eureka-registry
