@@ -3,6 +3,7 @@ package com.productcatalog.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/catalog-service/v1")
 @RequiredArgsConstructor
+@RefreshScope //to refresh the values at runtime
 public class ProductController {
 
 	private final IProductService productService;

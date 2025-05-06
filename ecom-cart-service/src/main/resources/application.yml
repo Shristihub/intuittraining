@@ -1,0 +1,37 @@
+server:
+  port: 8085
+
+spring:
+ application:
+    name: product-cart
+eureka:
+  client:
+    service-url:
+      default-zone: http://eureka-registry
+#configuration for resilence
+resilience4j:
+ circuitbreaker:
+    instances:
+     cart-service:
+       register-health-indicator: true
+       slidingWindowType: COUNT_BASED
+       slidingWindowSize: 10
+       minimumNumberOfCalls: 5
+       permittedNumberOfCallsInHalfOpenState: 3
+       automaticTransitionFromOpenToHalfOpenEnabled: true
+       waitDurationInOpenState: 5s
+       failureRateThreshold: 50
+
+# to enable the circuitbreaker 
+management:
+   endpoints:
+     web:
+       exposure:
+         include: '*'
+   endpoint:
+     health:
+       show-details: always
+   health:
+     circuitbreakers:
+       enabled: true
+  

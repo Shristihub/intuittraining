@@ -11,3 +11,8 @@ eureka:
   client:
     service-url:
       default-zone: http://eureka-registry
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
