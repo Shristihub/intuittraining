@@ -2,6 +2,7 @@ package com.productcatalog.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,16 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/catalog-service/v1")
 @RequiredArgsConstructor
 public class ProductController {
-	
+
 	private final IProductService productService;
+	@Value("${message}")
+	private String message;
+
+//	http://localhost:8082/catalog-service/v1/greet
+	@GetMapping("/greet")
+	String greet() {
+		return message;
+	}
 
 //	http://localhost:8082/catalog-service/v1/products
 	@PostMapping("/products")
@@ -30,21 +39,22 @@ public class ProductController {
 		productService.addProduct(productDTO);
 		return ResponseEntity.status(HttpStatus.CREATED.value()).build();
 	}
-	
+
 //	http://localhost:8082/catalog-service/v1/products
 	ResponseEntity<Void> updateProduct(@RequestBody ProductDTO productDTO) {
 		productService.updateProduct(productDTO);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("info", "updated one product");
 		return ResponseEntity.status(HttpStatus.ACCEPTED.ordinal()).headers(headers).build();
-		
+
 	}
+
 //	http://localhost:8082/catalog-service/v1/products/productId/1
 	ResponseEntity<Void> deleteProduct(@PathVariable int productId) {
 		productService.deleteProduct(productId);
 		return ResponseEntity.status(HttpStatus.OK.value()).build();
 	}
-	
+
 //	http://localhost:8082/catalog-service/v1/products/productId/1
 	@GetMapping("/products/productId/{productId}")
 	ResponseEntity<ProductDTO> getById(@PathVariable int productId) {
@@ -52,32 +62,35 @@ public class ProductController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("info", "get one product by id");
 		return ResponseEntity.ok().headers(headers).body(productDTO);
-		
+
 	}
+
 //	http://localhost:8082/catalog-service/v1/products
 	@GetMapping("/products")
-	ResponseEntity<List<ProductDTO>> getAllProducts(){
+	ResponseEntity<List<ProductDTO>> getAllProducts() {
 		List<ProductDTO> products = productService.getAllProducts();
 		return ResponseEntity.ok(products);
 	}
+
 //	http://localhost:8082/catalog-service/v1/products/category/electronics/price/40000
 	@GetMapping("/products/category/{category}/price/{price}")
-	ResponseEntity<List<ProductDTO>> getByCategoryLessPrice(@PathVariable String category,@PathVariable double price){
-		List<ProductDTO> products = productService.getByCategoryLessPrice(category,price);
+	ResponseEntity<List<ProductDTO>> getByCategoryLessPrice(@PathVariable String category, @PathVariable double price) {
+		List<ProductDTO> products = productService.getByCategoryLessPrice(category, price);
 		return ResponseEntity.ok(products);
-		
+
 	}
-	
+
 //	http://localhost:8082/catalog-service/v1/products/brand/Samsung
 	@GetMapping("/products/brand/{brand}")
-	ResponseEntity<List<ProductDTO>>  getByBrand(@PathVariable String brand){
+	ResponseEntity<List<ProductDTO>> getByBrand(@PathVariable String brand) {
 		List<ProductDTO> products = productService.getByBrand(brand);
 		return ResponseEntity.ok(products);
 	}
-	
+
 //	http://localhost:8082/catalog-service/v1/products/productname/television/price/200000
 	@GetMapping("/products/productname/{productname}/price/{price}")
-	ResponseEntity<List<ProductDTO>>  getByProductNamePrice(@PathVariable("productname") String name,@PathVariable double price){
+	ResponseEntity<List<ProductDTO>> getByProductNamePrice(@PathVariable("productname") String name,
+			@PathVariable double price) {
 		List<ProductDTO> products = productService.getByProductNamePrice(name, price);
 		return ResponseEntity.ok(products);
 	}

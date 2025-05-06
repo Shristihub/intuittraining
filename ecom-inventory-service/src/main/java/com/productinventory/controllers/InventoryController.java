@@ -1,6 +1,7 @@
 package com.productinventory.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class InventoryController {
 	
 	@Autowired
 	private IInventoryService inventoryService;
+	@Value("${message}")
+	private String message; 
 	
 	
 //	http://localhost:8083/inventory-service/v1/inventories
@@ -35,7 +38,7 @@ public class InventoryController {
 	@GetMapping("/inventories")
 	ResponseEntity<String> updateStock(@RequestParam int productId,@RequestParam int stock) {
 		String result = inventoryService.updateStock(productId, stock);
-		return ResponseEntity.status(HttpStatus.ACCEPTED.value()).body(result);
+		return ResponseEntity.status(HttpStatus.ACCEPTED.value()).body(result+message);
 	}
 	
 //	http://localhost:8083/inventory-service/v1/inventories/productId/50
