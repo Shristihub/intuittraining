@@ -1,0 +1,9 @@
+server:
+  port: 8083
+
+#import the config server to get the git uri
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  application:
+    name: product-inventory

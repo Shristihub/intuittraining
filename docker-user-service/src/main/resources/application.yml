@@ -1,0 +1,17 @@
+server:
+  port: 9092
+
+spring:
+  application:
+    name: product-user
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/intuitdb
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+ secret: shristispring

@@ -1,0 +1,103 @@
+services:
+ mysql:
+   image: mysql:8
+   container_name: sqlcontainer
+   ports:
+    - 3307:3306
+   environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: intuitdb
+   networks:
+     - intuit-network
+   healthcheck:
+     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+     interval: 10s
+     timeout: 5s
+     retries: 5
+ config-server:
+   build:
+     context: ../docker-config-service
+     dockerfile: Dockerfile
+   container_name: config-server
+   ports:
+      - "8888:8888" 
+   networks:
+    - intuit-network
+   environment:
+    - SPRING_PROFILES_ACTIVE=git
+   depends_on:
+    - mysql
+    
+  
+ product-inventory:
+   build:
+     context: ../docker-inventory-service
+     dockerfile: Dockerfile
+   container_name: product-inventory
+   ports:
+    - "8083:8083"
+   environment:
+    - SPRING_PROFILES_ACTIVE=docker
+   depends_on:
+     - mysql
+     - config-server
+   networks:
+     - intuit-network  
+ product-catalog:
+    build:
+      context: ../docker-catalog-service
+      dockerfile: Dockerfile
+    container_name: product-catalog
+    ports:
+     - "8082:8082"
+    environment:
+     - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+     - config-server
+     - mysql
+     - product-inventory
+    networks:
+      - intuit-network 
+ product-cart:
+    build: 
+      context: ../docker-cart-service
+      dockerfile: Dockerfile
+    container_name: product-cart
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+     - config-server
+     - mysql
+     - product-catalog
+    networks:
+      - intuit-network
+ product-info:
+    build:
+      context: ../docker-info-service
+      dockerfile: Dockerfile
+    container_name: product-info
+    ports:
+     - "8092:8092"
+    environment:
+     - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+     - config-server
+     - product-catalog
+    networks:
+      - intuit-network
+ product-gateway:
+    build: 
+      context: ../docker-gateway-service
+      dockerfile: Dockerfile
+    container_name: product-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - intuit-network
+networks:
+  intuit-network: 
+   driver: bridge

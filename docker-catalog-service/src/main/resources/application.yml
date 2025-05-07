@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+#import the config server to get the git uri
+spring:
+  config:
+    import: configserver:http://config-server:8888
+  application:
+    name: product-catalog
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

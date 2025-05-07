@@ -1,0 +1,8 @@
+package com.productinventory.service;
+
+public interface IInventoryService {
+
+	String addStock(int productId,int stock);
+	String updateStock( int productId,int stock);
+	int checkStock(int productId);
+}
